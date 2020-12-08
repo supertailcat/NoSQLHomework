@@ -2,6 +2,9 @@ package com.bjtu.redis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import redis.clients.jedis.Jedis;
+
+import java.util.Scanner;
 
 /**
  *  SpringBootApplication
@@ -16,6 +19,65 @@ public class RedisDemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RedisDemoApplication.class, args);
+        System.out.println("-----------已连接数据库-----------");
+        JedisUtil jedisUtil = new JedisUtil();
+        System.out.println("-----------获取实例成功-----------");
+
+whileloop:
+        while(true) {
+            System.out.println("-----------请输入操作码-----------");
+            System.out.println("-----------1：count自增----------");
+            System.out.println("-----------2：count加减----------");
+            System.out.println("-----------3：显示count----------");
+            System.out.println("-----------4：清空count----------");
+            System.out.println("-----------5：还就那个退出---------");
+            System.out.print("^$");
+            Scanner scan = new Scanner(System.in);
+            String input = scan.next();
+            try {
+                switch (input) {
+                    case "1":
+                        jedisUtil.incr("count");
+                        System.out.println("-------------操作成功------------");
+                        break;
+                    case "2":
+                        System.out.println("-------请输入加减的大小（正负）-------");
+                        System.out.print("^$");
+                        scan = new Scanner(System.in);
+                        input = scan.next();
+                        try {
+                            int num = Integer.parseInt(input);
+
+                            if(num >= 0) {
+                                jedisUtil.incr("count", num);
+                                System.out.println("-----------增加了 " + num + "----------");
+                            } else {
+                                jedisUtil.decr("count", -num);
+                                System.out.println("-----------减少了 " + -num + "----------");
+                            }
+                        }
+                        catch (Exception e) {
+                            System.out.println("----------我好像没有听懂----------");
+                        }
+                        break;
+                    case "3":
+                        System.out.println("count 的值为" + jedisUtil.get("count"));
+                        break;
+                    case "4":
+                        jedisUtil.set("count", "0");
+                        System.out.println("-------------已重置-------------");
+                        break;
+                    case "5":
+                        break whileloop;
+                    default:
+                        System.out.println("----------我好像没有听懂----------");
+                }
+            }
+            catch (Exception e) {
+                System.out.println("服务器错误");
+            }
+        }
+        System.out.println("-------------感谢使用------------");
     }
 }
 

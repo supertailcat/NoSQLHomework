@@ -9,7 +9,7 @@ public class Counter {
     private String type;
     private String keyFields;
     private int valueFields;
-    private String FREQ;
+//    private String FREQ;
 
     public Counter(JSONObject object) {
         try {
@@ -18,7 +18,7 @@ public class Counter {
             type = object.getString("type");
             keyFields = object.getString("keyFields");
             valueFields = object.getInt("valueFields");
-            FREQ = object.getString();
+//            FREQ = object.getString("FREQ");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -13,6 +13,12 @@ public class JedisUtil {
     public JedisUtil() {
     }
 
+    public static Jedis getJedis() {
+        if (jedis == null)
+            jedis = jedisPool.getResource();
+        return jedis;
+    }
+
     /**
      * 一次增加1
      * @param key
