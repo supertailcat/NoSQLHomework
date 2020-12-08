@@ -19,10 +19,12 @@ public class RedisDemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RedisDemoApplication.class, args);
-        System.out.println("-----------已连接数据库-----------");
         JedisUtil jedisUtil = new JedisUtil();
-        System.out.println("-----------获取实例成功-----------");
-
+        if(!JedisUtil.getJedis().ping().equals("PONG")) {
+            System.out.println("----------数据库连接失败！----------");
+            return;
+        }
+        System.out.println("-----------已连接数据库-----------");
 whileloop:
         while(true) {
             System.out.println("-----------请输入操作码-----------");
