@@ -97,8 +97,8 @@ public class JedisUtil {
         jedis.zadd("date", date, String.valueOf(date));
     }
 
-    public long getfreq(long time) throws  Exception {
-        return jedis.zcount("date", System.currentTimeMillis() - time, System.currentTimeMillis());
+    public long getfreq(long time1, long time2) throws  Exception {
+        return jedis.zcount("date", System.currentTimeMillis() - time1, System.currentTimeMillis() - time2);
     }
 
     public void cleanfreq() throws Exception {

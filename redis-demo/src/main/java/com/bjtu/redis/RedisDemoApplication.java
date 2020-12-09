@@ -32,7 +32,7 @@ whileloop:
             System.out.println("-----------2：count加减----------");
             System.out.println("-----------3：显示count----------");
             System.out.println("-----------4：清空count----------");
-            System.out.println("-----------5：显示n秒内频率-------");
+            System.out.println("-----------5：显示时间范围内频率----");
             System.out.println("-----------6：清空频率日志---------");
             System.out.println("-----------7：还就那个退出---------");
             System.out.print("^$");
@@ -76,13 +76,18 @@ whileloop:
                         System.out.println("-------------已重置-------------");
                         break;
                     case "5":
-                        System.out.println("-------------输入毫秒------------");
+                        System.out.println("-------举例1：如果您想统计半小时前的频率，请输入1800000和0------");
+                        System.out.println("-------举例2：如果您想统计一小时到前到半小时前的频率，请输入3600000和1800000------");
+                        System.out.println("-------起始时间1，请输入n毫秒前------");
                         System.out.print("^$");
                         scan = new Scanner(System.in);
-                        input = scan.next();
+                        String input1 = scan.next();
+                        System.out.println("-------起始时间2，请输入n毫秒前------");
+                        String input2 = scan.next();
                         try {
-                            long num = Long.parseLong(input);
-                            System.out.println("FREQ 的值为" + jedisUtil.getfreq(num));
+                            long num1 = Long.parseLong(input1);
+                            long num2 = Long.parseLong(input2);
+                            System.out.println("这段时间FREQ 的值为" + jedisUtil.getfreq(num1, num2));
                         } catch (Exception e) {
                             System.out.println("----------我好像没有听懂----------");
                         }
