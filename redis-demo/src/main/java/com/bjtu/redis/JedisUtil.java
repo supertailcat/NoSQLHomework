@@ -92,4 +92,16 @@ public class JedisUtil {
     public Map<String, String> hgetAll(String key) throws Exception {
         return jedis.hgetAll(key);
     }
+
+    public void add2zset(long date) throws Exception {
+        jedis.zadd("date", date, String.valueOf(date));
+    }
+
+    public long getfreq(long time) throws  Exception {
+        return jedis.zcount("date", System.currentTimeMillis() - time, System.currentTimeMillis());
+    }
+
+    public void cleanfreq() throws Exception {
+        jedis.del("date");
+    }
 }

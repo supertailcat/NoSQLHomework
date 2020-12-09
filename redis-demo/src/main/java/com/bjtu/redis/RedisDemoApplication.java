@@ -32,7 +32,9 @@ whileloop:
             System.out.println("-----------2：count加减----------");
             System.out.println("-----------3：显示count----------");
             System.out.println("-----------4：清空count----------");
-            System.out.println("-----------5：还就那个退出---------");
+            System.out.println("-----------5：显示n秒内频率-------");
+            System.out.println("-----------6：清空频率日志---------");
+            System.out.println("-----------7：还就那个退出---------");
             System.out.print("^$");
             Scanner scan = new Scanner(System.in);
             String input = scan.next();
@@ -40,6 +42,7 @@ whileloop:
                 switch (input) {
                     case "1":
                         jedisUtil.incr("count");
+                        jedisUtil.add2zset(System.currentTimeMillis());
                         System.out.println("-------------操作成功------------");
                         break;
                     case "2":
@@ -52,9 +55,11 @@ whileloop:
 
                             if(num >= 0) {
                                 jedisUtil.incr("count", num);
+                                jedisUtil.add2zset(System.currentTimeMillis());
                                 System.out.println("-----------增加了 " + num + "----------");
                             } else {
                                 jedisUtil.decr("count", -num);
+                                jedisUtil.add2zset(System.currentTimeMillis());
                                 System.out.println("-----------减少了 " + -num + "----------");
                             }
                         }
@@ -67,9 +72,27 @@ whileloop:
                         break;
                     case "4":
                         jedisUtil.set("count", "0");
+                        jedisUtil.add2zset(System.currentTimeMillis());
                         System.out.println("-------------已重置-------------");
                         break;
                     case "5":
+                        System.out.println("-------------输入毫秒------------");
+                        System.out.print("^$");
+                        scan = new Scanner(System.in);
+                        input = scan.next();
+                        try {
+                            long num = Long.parseLong(input);
+                            System.out.println("FREQ 的值为" + jedisUtil.getfreq(num));
+                        } catch (Exception e) {
+                            System.out.println("----------我好像没有听懂----------");
+                        }
+
+                        break;
+                    case "6":
+                        jedisUtil.cleanfreq();
+                        System.out.println("-------------已重置-------------");
+                        break;
+                    case "7":
                         break whileloop;
                     default:
                         System.out.println("----------我好像没有听懂----------");
@@ -80,6 +103,7 @@ whileloop:
             }
         }
         System.out.println("-------------感谢使用------------");
+        System.exit(0);
     }
 }
 
