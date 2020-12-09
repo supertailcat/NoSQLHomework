@@ -1,0 +1,11 @@
+{
+	"Counter":[
+		{
+			"counterName":"myCounter",
+			"counterIndex":"aa",
+			"type":"num",
+			"keyFields":"mycounter",
+			"valueFields":0
+		}
+	]
+}

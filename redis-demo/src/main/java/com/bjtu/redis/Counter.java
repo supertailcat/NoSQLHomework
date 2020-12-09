@@ -1,5 +1,6 @@
 package com.bjtu.redis;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,17 +12,15 @@ public class Counter {
     private int valueFields;
 //    private String FREQ;
 
-    public Counter(JSONObject object) {
-        try {
-            counterName = object.getString("counterName");
-            counterIndex = object.getString("counterIndex");
-            type = object.getString("type");
-            keyFields = object.getString("keyFields");
-            valueFields = object.getInt("valueFields");
-//            FREQ = object.getString("FREQ");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public Counter(String string) throws JSONException {
+        JSONObject object = new JSONObject(string);
+        JSONArray array = object.getJSONArray("Counter");
+        JSONObject obj = array.getJSONObject(0);
+        counterName = obj.getString("counterName");
+        counterIndex = obj.getString("counterIndex");
+        type = obj.getString("type");
+        keyFields = obj.getString("keyFields");
+        valueFields = obj.getInt("valueFields");
     }
 
     @Override

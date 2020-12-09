@@ -1,9 +1,10 @@
 package com.bjtu.redis;
 
+import org.json.JSONException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import redis.clients.jedis.Jedis;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -25,7 +26,16 @@ public class RedisDemoApplication {
             return;
         }
         System.out.println("-----------已连接数据库-----------");
-whileloop:
+        System.out.println("-----------读取配置文件-----------");
+        try {
+            LoadFile loadFile = new LoadFile();
+            loadFile.ReadFile();
+            Counter counter = new Counter(loadFile.ReadFile().replaceAll("\\s*",""));
+            System.out.println("-----------读取配置成功-----------");
+        } catch (IOException | JSONException e) {
+            System.out.println("-----------读取文件失败-----------");
+        }
+        whileloop:
         while(true) {
             System.out.println("-----------请输入操作码-----------");
             System.out.println("-----------1：count自增----------");
